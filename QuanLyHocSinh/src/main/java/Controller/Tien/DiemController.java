@@ -146,32 +146,35 @@ public class DiemController {
     // import com.qlhs.main.Auth;
 
     private void loadData() {
-
         List<Diem> list;
 
-        // ✅ Nếu là học sinh
         if (Auth.isHocSinh()) {
+            // Lấy mã học sinh từ class Auth (viết hoa để đảm bảo trùng khớp mã trong database)
+            String maHocSinh = Auth.maNguoiDung.toUpperCase();
 
-            // DEBUG xem có đúng mã không
-            System.out.println("LOGIN MA HS = [" + Auth.maNguoiDung + "]");
+            // Gọi đúng hàm getDiemByMaHS trong DiemDAO
+            list = dao.getDiemByMaHS(maHocSinh);
 
-            // ✅ ÉP CHUẨN CHỮ HOA (QUAN TRỌNG)
-            list = dao.getDiemByMaHS(Auth.maNguoiDung.toUpperCase());
-
-            // Ẩn nút cập nhật
-            view.getBtnCapNhat().setVisible(false);
+            // Ẩn nút cập nhật nếu là học sinh
+            if (view.getBtnCapNhat() != null) {
+                view.getBtnCapNhat().setVisible(false);
+            }
 
         } else {
-
+            // NẾU LÀ ADMIN / GIÁO VIÊN: Load dữ liệu theo bộ lọc ComboBox
             String maLop = view.getMaLopFilter();
+
+            // Tránh lỗi khi vừa mở form chưa có dữ liệu lớp
             if (maLop.isEmpty()) return;
 
             String maMon = view.getMaMonFilter();
             int hocKy = view.getHocKyFilter();
 
+            // Gọi đúng hàm getDiemByFilter trong DiemDAO
             list = dao.getDiemByFilter(maLop, maMon, hocKy);
         }
 
+        // Cuối cùng: Đổ danh sách lên bảng
         view.setTableData(list);
     }
 }

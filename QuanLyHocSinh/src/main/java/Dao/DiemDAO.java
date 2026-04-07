@@ -117,13 +117,13 @@ public class DiemDAO {
         return list;
     }
     // Thêm cho phân quyền tài khoản
+    // Thêm cho phân quyền tài khoản
     public List<Diem> getDiemByMaHS(String maHS) {
         List<Diem> list = new ArrayList<>();
 
-        String sql = "SELECT d.*, hs.HoTen AS tenHS, mh.tenMH\n" +
-                "FROM Diem d\n" +
-                "JOIN HocSinh hs ON d.MaHS = hs.MaHS\n" +
-                "JOIN MonHoc mh ON d.MaMH = mh.MaMH\n" +
+        // ĐÃ SỬA: Thêm JOIN để lấy được cột HoTen từ bảng HocSinh
+        String sql = "SELECT d.*, hs.HoTen FROM Diem d " +
+                "JOIN HocSinh hs ON d.MaHS = hs.MaHS " +
                 "WHERE d.MaHS = ?";
 
         try (Connection con = ConnectDB.getConnection();
@@ -138,14 +138,15 @@ public class DiemDAO {
 
             while (rs.next()) {
                 Diem d = new Diem();
-                d.setMaHS(rs.getString("maHS"));
-                d.setTenHS(rs.getString("HoTen"));
-                d.setMaMH(rs.getString("maMH"));
-                d.setHocKy(rs.getInt("hocKy"));
-                d.setDiem15p(rs.getDouble("diem15p"));
-                d.setDiem1Tiet(rs.getDouble("diem1Tiet"));
-                d.setDiemGiuaKy(rs.getDouble("diemGiuaKy"));
-                d.setDiemCuoiKy(rs.getDouble("diemCuoiKy"));
+                // ĐÃ SỬA: Viết hoa đúng chuẩn tên cột
+                d.setMaHS(rs.getString("MaHS"));
+                d.setTenHS(rs.getString("HoTen")); // Giờ thì lấy được HoTen bình thường nhé
+                d.setMaMH(rs.getString("MaMH"));
+                d.setHocKy(rs.getInt("HocKy"));
+                d.setDiem15p(rs.getDouble("Diem15p"));
+                d.setDiem1Tiet(rs.getDouble("Diem1Tiet"));
+                d.setDiemGiuaKy(rs.getDouble("DiemGiuaKy"));
+                d.setDiemCuoiKy(rs.getDouble("DiemCuoiKy"));
                 list.add(d);
             }
 
