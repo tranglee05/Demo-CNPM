@@ -37,7 +37,9 @@ public class QuanlyThongbaoPanel extends JPanel{
  
         JPanel pnlNorth = new JPanel(new BorderLayout(10, 10));
         pnlNorth.setOpaque(false);
-        JLabel lblTitle = new JLabel("HỆ THỐNG QUẢN LÝ THÔNG BÁO", JLabel.CENTER);
+        //thêm ngày 09/04/2026
+        String titleText = Model.Auth.isHocSinh() ? "THÔNG BÁO" : "QUẢN LÝ THÔNG BÁO";
+        JLabel lblTitle = new JLabel(titleText, JLabel.CENTER);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 26));
         lblTitle.setForeground(new Color(41, 128, 185));
         
@@ -52,7 +54,6 @@ public class QuanlyThongbaoPanel extends JPanel{
         pnlNorth.add(lblTitle, BorderLayout.NORTH);
         pnlNorth.add(pnlFilter, BorderLayout.SOUTH);
         add(pnlNorth, BorderLayout.NORTH);
-
  
         String[] cols = {"STT", "Tiêu đề", "Người gửi", "Ngày tạo", "Nội dung"};
         model = new DefaultTableModel(cols, 0) {
@@ -113,7 +114,12 @@ public class QuanlyThongbaoPanel extends JPanel{
         pnlSouth.add(pnlInput, BorderLayout.CENTER);
         pnlSouth.add(pnlBtns, BorderLayout.SOUTH);
         add(pnlSouth, BorderLayout.SOUTH);
-        
+        //thêm ngyaf 09/04/2026
+        if (Model.Auth.isHocSinh()) {
+            //pnlFilter.setVisible(false);
+            pnlSouth.setVisible(false);
+        }
+
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {

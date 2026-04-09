@@ -243,9 +243,12 @@ public class HocphiDAO {
             return false;
         }
     }
+    // Sửa ngày 09/04/2026
     public List<Hocphi> getByMaHS(String maHS) {
         List<Hocphi> list = new ArrayList<>();
-        String sql = "SELECT * FROM HocPhi WHERE MaHS = ?";
+        String sql = "SELECT hp.*, hs.MaLop FROM HocPhi hp " +
+                "JOIN HocSinh hs ON hp.MaHS = hs.MaHS " +
+                "WHERE hp.MaHS = ?";
 
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -255,7 +258,17 @@ public class HocphiDAO {
 
             while (rs.next()) {
                 Hocphi hp = new Hocphi();
-                // set dữ liệu ở đây
+
+                hp.setMaHP(rs.getInt("MaHP"));
+                hp.setMaHS(rs.getString("MaHS"));
+                hp.setMaLop(rs.getString("MaLop"));
+                hp.setHocKy(rs.getInt("HocKy"));
+                hp.setNamHoc(rs.getString("NamHoc"));
+                hp.setTongTien(rs.getLong("TongTien"));
+                hp.setMienGiam(rs.getLong("MienGiam"));
+                hp.setPhaiDong(rs.getLong("PhaiDong"));
+                hp.setTrangThai(rs.getString("TrangThai"));
+
                 list.add(hp);
             }
         } catch (Exception e) {

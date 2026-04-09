@@ -22,12 +22,6 @@ public class Hocphicontroller {
         this.dao = new HocphiDAO();
         List<Hocphi> list;
 
-        if (Auth.isHocSinh()) {
-            list = dao.getByMaHS(Auth.maNguoiDung);
-        } else {
-            list = dao.getByMaHS(Auth.maNguoiDung);
-        }
-
         System.out.println("DEBUG Controller: Khởi tạo controller...");
 
         initEvents();
@@ -86,10 +80,16 @@ public class Hocphicontroller {
 
         loadTatCaDuLieu();
     }
-
+    //Sửa ngày 09/04/2026
     private void loadTatCaDuLieu() {
         try {
-            List<Hocphi> listAll = dao.getAllHocPhi();
+            List<Hocphi> listAll;
+            if (Auth.isHocSinh()) {
+                listAll = dao.getByMaHS(Auth.maNguoiDung);
+            } else {
+                listAll = dao.getAllHocPhi();
+            }
+
             view.loadTable(listAll);
         } catch (Exception ex) {
             ex.printStackTrace();

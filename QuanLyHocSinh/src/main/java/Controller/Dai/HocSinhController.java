@@ -12,20 +12,34 @@ public class HocSinhController {
 
     private HocSinhDAO dao = new HocSinhDAO();
 
-    
+    //sửa ngày 09/04/2026
     public void loadTable(DefaultTableModel model) {
         model.setRowCount(0);
-        List<HocSinh> list = dao.getAll();
+        List<HocSinh> list;
 
+        // KIỂM TRA PHÂN QUYỀN
+        if (Model.Auth.isHocSinh()) {
+            // Chỉ lấy hồ sơ của chính học sinh đang đăng nhập
+            HocSinh hs = dao.getByMaHS(Model.Auth.maNguoiDung);
+            list = new java.util.ArrayList<>();
+            if (hs != null) {
+                list.add(hs);
+            }
+        } else {
+            // Nếu là Admin/Giáo viên thì lấy tất cả
+            list = dao.getAll();
+        }
+
+        // Đổ dữ liệu lên bảng
         for (HocSinh hs : list) {
             model.addRow(new Object[]{
-                hs.getMaHS(),
-                hs.getHoTen(),
-                hs.getNgaySinh(),
-                hs.getGioiTinh(),
-                hs.getDiaChi(),
-                hs.getMaLop(),
-                hs.getMaDT()
+                    hs.getMaHS(),
+                    hs.getHoTen(),
+                    hs.getNgaySinh(),
+                    hs.getGioiTinh(),
+                    hs.getDiaChi(),
+                    hs.getMaLop(),
+                    hs.getMaDT()
             });
         }
     }

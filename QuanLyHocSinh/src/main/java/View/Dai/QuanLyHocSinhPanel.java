@@ -61,7 +61,9 @@ public class QuanLyHocSinhPanel extends JPanel {
 
         JPanel pnlNorth = new JPanel(new GridLayout(2, 1, 5, 5));
 
-        JLabel lblTitle = new JLabel("QUẢN LÝ HỌC SINH", JLabel.CENTER);
+        //thêm ngày 09/04/2026
+        String titleText = Model.Auth.isHocSinh() ? "HỒ SƠ HỌC SINH" : "QUẢN LÝ HỌC SINH";
+        JLabel lblTitle = new JLabel(titleText, JLabel.CENTER);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 26));
         lblTitle.setForeground(new Color(0, 102, 204));
         pnlNorth.add(lblTitle);
@@ -209,6 +211,12 @@ public class QuanLyHocSinhPanel extends JPanel {
         btnHienThiTatCa.addActionListener(e ->
                 controller.loadTable(tableModel)
         );
+        //thêm ngày 09/04/2026
+        if (Model.Auth.isHocSinh()) {
+            pnlSearch.setVisible(false);
+            pnlSouth.setVisible(false);
+        }
+
     }
 
     private void them() {

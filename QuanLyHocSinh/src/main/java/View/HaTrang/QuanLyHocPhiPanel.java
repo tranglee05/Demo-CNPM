@@ -44,7 +44,9 @@ public class QuanLyHocPhiPanel extends JPanel {
         JPanel pnlNorth = new JPanel(new BorderLayout(10, 10));
         pnlNorth.setOpaque(false);
 
-        JLabel lblTitle = new JLabel("HỆ THỐNG QUẢN LÝ HỌC PHÍ", JLabel.CENTER);
+        //thêm ngày 09/04/2026
+        String titleText = Model.Auth.isHocSinh() ? "HỌC PHÍ" : "HỆ THỐNG QUẢN LÝ HỌC PHÍ";
+        JLabel lblTitle = new JLabel(titleText, JLabel.CENTER);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 26));
         lblTitle.setForeground(new Color(41, 128, 185));
         pnlNorth.add(lblTitle, BorderLayout.NORTH);
@@ -185,6 +187,10 @@ public class QuanLyHocPhiPanel extends JPanel {
 
         pnlSouth.add(pnlButtons, BorderLayout.SOUTH);
         add(pnlSouth, BorderLayout.SOUTH);
+        //thêm nga 09/04/2026
+        if (Model.Auth.isHocSinh()) {
+            pnlSouth.setVisible(false);
+        }
 
         // Event click bảng
         tableHocPhi.addMouseListener(new MouseAdapter() {

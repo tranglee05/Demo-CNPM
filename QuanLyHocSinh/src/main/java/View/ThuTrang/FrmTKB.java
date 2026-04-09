@@ -47,7 +47,9 @@ public class FrmTKB extends JPanel {
         JPanel pnlNorth = new JPanel(new BorderLayout(0, 10));
 
         // -- Tiêu đề --
-        JLabel title = new JLabel("THỜI KHÓA BIỂU / LỊCH DẠY", JLabel.CENTER);
+        //thêm ngày 09/04/2026
+        String titleText = Model.Auth.isHocSinh() ? "THỜI KHÓA BIỂU" : "THỜI KHÓA BIỂU / LỊCH DẠY";
+        JLabel title = new JLabel(titleText, JLabel.CENTER);
         title.setFont(new Font("Segoe UI", Font.BOLD, 26));
         title.setForeground(new Color(0, 102, 204));
         title.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0)); // Cách dưới 1 chút
@@ -83,7 +85,6 @@ public class FrmTKB extends JPanel {
 
         // ==> QUAN TRỌNG: Đưa cả khối pnlNorth ra giao diện chính
         add(pnlNorth, BorderLayout.NORTH);
-
 
         // ===== 2. TABLE (CENTER) =====
         model = new DefaultTableModel(
@@ -170,6 +171,11 @@ public class FrmTKB extends JPanel {
 
         pnlSouth.add(pnlBtn, BorderLayout.SOUTH);
         add(pnlSouth, BorderLayout.SOUTH);
+        //thêm này 09/04/2026
+        if (Model.Auth.isHocSinh()) {
+            pnlSearch.setVisible(false);
+            pnlSouth.setVisible(false);
+        }
     }
 
     /* =================================================

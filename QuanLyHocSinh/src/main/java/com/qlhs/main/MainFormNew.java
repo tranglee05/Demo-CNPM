@@ -266,10 +266,13 @@ public class MainFormNew extends JFrame {
 
         // -- HÀNH CHÍNH & TÀI VỤ[cite: 2] --
         addSideHeader(sidebar, "Hành chính & tài vụ");
-        addSideButton(sidebar, "Quản lý học phí", "FormHocPhi", "fee.png");
+        if (Auth.isHocSinh()) {
+            addSideButton(sidebar, "Xem học phí", "FormHocPhi", "fee.png");
+        }
         if (Auth.isHocSinh() || Auth.isGiaoVien()) {
             addSideButton(sidebar, "Thông báo", "FormThongBao", "notification.png");
         } else {
+            addSideButton(sidebar, "Quản lý học phí", "FormHocPhi", "fee.png");
             addSideButton(sidebar, "Quản lý thông báo", "FormThongBao", "notification.png");
         }
         if (!Auth.isHocSinh()) {

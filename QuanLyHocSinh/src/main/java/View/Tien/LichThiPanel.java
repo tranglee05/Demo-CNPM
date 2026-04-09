@@ -45,7 +45,9 @@ public class LichThiPanel extends JPanel {
         JPanel pnlNorth = new JPanel(new BorderLayout(5, 5));
         
         // Tiêu đề to đậm
-        JLabel lblTitle = new JLabel("QUẢN LÝ LỊCH THI", JLabel.CENTER);
+        //thêm ngày 09/04/2026
+        String titleText = Model.Auth.isHocSinh() ? "XEM LỊCH THI" : "QUẢN LÝ LỊCH THI";
+        JLabel lblTitle = new JLabel(titleText, JLabel.CENTER);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 26));
         lblTitle.setForeground(new Color(0, 102, 204));
         pnlNorth.add(lblTitle, BorderLayout.NORTH);
@@ -174,6 +176,10 @@ public class LichThiPanel extends JPanel {
         pnlSouth.add(pnlBtn, BorderLayout.SOUTH);
         
         add(pnlSouth, BorderLayout.SOUTH);
+        //thêm ngày 09/04/2026
+        if (Model.Auth.isHocSinh()) {
+            pnlSouth.setVisible(false);
+        }
     }
 
     // --- Getter lấy từ khóa tìm kiếm ---

@@ -142,8 +142,6 @@ public class DiemController {
         }
     }
     // Thêm cho phân quyền tài khoản
-    // Import thêm Auth vào đầu file
-    // import com.qlhs.main.Auth;
 
     private void loadData() {
         List<Diem> list;
