@@ -84,4 +84,31 @@ public class PhuckhaoDAO {
         } catch (Exception e) { e.printStackTrace(); }
         return list;
     }
+    //thêm ngày 13/04/2026
+    // Thêm hàm này vào cuối file PhuckhaoDAO.java
+    public List<Phuckhao> getByMaHS(String maHS) {
+        List<Phuckhao> list = new ArrayList<>();
+        String sql = "SELECT * FROM PhucKhao WHERE MaHS = ? ORDER BY NgayGui DESC";
+
+        try (Connection c = ConnectDB.getConnection();
+             PreparedStatement p = c.prepareStatement(sql)) {
+
+            p.setString(1, maHS);
+            ResultSet rs = p.executeQuery();
+
+            while (rs.next()) {
+                Phuckhao pk = new Phuckhao();
+                pk.setMaPK(rs.getInt("MaPK"));
+                pk.setMaHS(rs.getString("MaHS"));
+                pk.setMaMH(rs.getString("MaMH"));
+                pk.setLyDo(rs.getNString("LyDo"));
+                pk.setNgayGui(rs.getTimestamp("NgayGui"));
+                pk.setTrangThai(rs.getNString("TrangThai"));
+                list.add(pk);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

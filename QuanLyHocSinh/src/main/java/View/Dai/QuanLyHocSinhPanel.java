@@ -43,15 +43,15 @@ public class QuanLyHocSinhPanel extends JPanel {
         controller.loadTable(tableModel);
         setFormEnabled(false);
 
+        //sửa ngày 13/04/2026
         if (Model.Auth.isHocSinh()) {
             loadThongTinCaNhan();
-
-            // khóa chỉnh sửa
+            // Mặc định khóa form, khi nào bấm "Sửa" mới mở cho nhập
             setFormEnabled(false);
+
+            // CHỈ ẨN nút Thêm và Xóa
             btnThem.setVisible(false);
-            btnSua.setVisible(false);
             btnXoa.setVisible(false);
-            btnLuu.setVisible(false);
         }
     }
 
@@ -214,7 +214,11 @@ public class QuanLyHocSinhPanel extends JPanel {
         //thêm ngày 09/04/2026
         if (Model.Auth.isHocSinh()) {
             pnlSearch.setVisible(false);
-            pnlSouth.setVisible(false);
+            btnThem.setVisible(false);
+            btnXoa.setVisible(false);
+        } else if (Model.Auth.isGiaoVien()) {
+            btnThem.setVisible(false);
+            btnXoa.setVisible(false);
         }
 
     }
@@ -234,6 +238,11 @@ public class QuanLyHocSinhPanel extends JPanel {
         isThem = false;
         setFormEnabled(true);
         txtMaHS.setEnabled(false);
+        //thêm ngày 13/04/2026
+        if (Model.Auth.isHocSinh()) {
+            cboMaLop.setEnabled(false);
+            cboMaDT.setEnabled(false);
+        }
     }
     
     private void luu() {

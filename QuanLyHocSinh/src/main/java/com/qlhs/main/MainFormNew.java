@@ -275,9 +275,8 @@ public class MainFormNew extends JFrame {
                 addSideButton(sidebar, "Quản lý lớp học", "FormLopHoc", "class.png");
                 addSideButton(sidebar, "Quản lý giáo viên", "FormGiaoVien", "teacher.png");
                 addSideButton(sidebar, "Quản lý tổ bộ môn", "FormToBoMon", "group.png");
-            } else if (!Auth.isGiaoVien()) {
-                addSideButton(sidebar, "Quản lý lớp học", "FormLopHoc", "class.png");
-                addSideButton(sidebar, "Quản lý tổ bộ môn", "FormToBoMon", "group.png");
+            } else if (Auth.isGiaoVien()) {
+                addSideButton(sidebar, "Hồ sơ giáo viên", "FormGiaoVien", "teacher.png");
             }
             sidebar.add(Box.createRigidArea(new Dimension(0, 10)));
         }
@@ -310,6 +309,8 @@ public class MainFormNew extends JFrame {
         if (Auth.isHocSinh()) {
             addSideButton(sidebar, "Phúc khảo", "FormPhucKhao", "review.png");
             addSideButton(sidebar, "Xem học phí", "FormHocPhi", "fee.png");
+        } else if (Auth.isGiaoVien()) {
+            addSideButton(sidebar, "Quản lý phúc khảo", "FormPhucKhao", "review.png");
         }
         if (Auth.isHocSinh() || Auth.isGiaoVien()) {
             addSideButton(sidebar, "Thông báo", "FormThongBao", "notification.png");

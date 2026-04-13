@@ -46,7 +46,7 @@ public class LichThiPanel extends JPanel {
         
         // Tiêu đề to đậm
         //thêm ngày 09/04/2026
-        String titleText = Model.Auth.isHocSinh() ? "XEM LỊCH THI" : "QUẢN LÝ LỊCH THI";
+        String titleText = (Model.Auth.isHocSinh() || Model.Auth.isGiaoVien()) ? "XEM LỊCH THI" : "QUẢN LÝ LỊCH THI";
         JLabel lblTitle = new JLabel(titleText, JLabel.CENTER);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 26));
         lblTitle.setForeground(new Color(0, 102, 204));
@@ -176,8 +176,8 @@ public class LichThiPanel extends JPanel {
         pnlSouth.add(pnlBtn, BorderLayout.SOUTH);
         
         add(pnlSouth, BorderLayout.SOUTH);
-        //thêm ngày 09/04/2026
-        if (Model.Auth.isHocSinh()) {
+        //thêm ngày 13/04/2026
+        if (Model.Auth.isHocSinh() || Model.Auth.isGiaoVien()) {
             pnlSouth.setVisible(false);
         }
 

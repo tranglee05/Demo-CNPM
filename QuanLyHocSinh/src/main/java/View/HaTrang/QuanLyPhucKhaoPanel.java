@@ -39,7 +39,9 @@ public class QuanLyPhucKhaoPanel extends JPanel{
 
         JPanel pnlNorth = new JPanel(new BorderLayout(10, 10));
         pnlNorth.setOpaque(false);
-        JLabel lblTitle = new JLabel("HỆ THỐNG QUẢN LÝ PHÚC KHẢO", JLabel.CENTER);
+        //thêm ngày 13/04/2026
+        String titleText = Model.Auth.isHocSinh() ? "PHÚC KHẢO" : "QUẢN LÝ PHÚC KHẢO";
+        JLabel lblTitle = new JLabel(titleText, JLabel.CENTER);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 26));
         lblTitle.setForeground(new Color(41, 128, 185));
         
@@ -80,8 +82,13 @@ public class QuanLyPhucKhaoPanel extends JPanel{
         gbc.gridx = 1; txtMaMH = new JTextField(25); pnlInput.add(txtMaMH, gbc);
         gbc.gridx = 0; gbc.gridy = 2; pnlInput.add(new JLabel("Trạng Thái:"), gbc);
         gbc.gridx = 1;
+        //theem ngày 13/04/2026
+        // Khai báo nhãn riêng để có thể ẩn đi đối với Học sinh
+        JLabel lblTrangThai = new JLabel("Trạng Thái:");
+        gbc.gridx = 0; gbc.gridy = 2; pnlInput.add(lblTrangThai, gbc);
+        gbc.gridx = 1;
         cboTrangThai = new JComboBox<>(new String[]{
-            "Chờ xử lý", "Đang xử lý", "Đã xử lý", "Từ chối"
+                "Chờ xử lý", "Đang xử lý", "Đã xử lý", "Từ chối"
         });
         cboTrangThai.setPreferredSize(new Dimension(250, 28));
         pnlInput.add(cboTrangThai, gbc);
@@ -122,7 +129,39 @@ public class QuanLyPhucKhaoPanel extends JPanel{
         pnlSouth.add(pnlBtns, BorderLayout.SOUTH);
         add(pnlSouth, BorderLayout.SOUTH);
 
-        setCrudButtonState(true, false, false, false, false);
+
+        // Thêm ngày 13/04/2026
+        if (Model.Auth.isHocSinh()) {
+            // 1. HỌC SINH: Ẩn Nhãn và ComboBox Trạng Thái
+            lblTrangThai.setVisible(false);
+            cboTrangThai.setVisible(false);
+
+            // Mặc định luôn là Chờ xử lý khi học sinh thêm mới
+            cboTrangThai.setSelectedItem("Chờ xử lý");
+
+            // Cài đặt trạng thái ban đầu của các nút
+            setCrudButtonState(true, false, false, false, false);
+            txtMaHS.setText(Model.Auth.maNguoiDung); // Tự động điền mã của bản thân
+            txtMaHS.setEditable(false);              // Khóa không cho sửa thành mã người khác
+            txtMaHS.setBackground(new Color(245, 245, 245));
+        } else {
+            // 2. GIÁO VIÊN & ADMIN
+            // Ẩn nút Thêm (Giáo viên không tự tạo đơn phúc khảo)
+            btnThem.setVisible(false);
+
+            // Khóa các ô dữ liệu gốc, KHÔNG cho phép sửa Mã HS, Mã MH và Lý do
+            txtMaHS.setEditable(false);
+            txtMaMH.setEditable(false);
+            txtLyDo.setEditable(false);
+
+            // Đổi màu nền một chút để báo hiệu ô bị khóa (tùy chọn)
+            txtMaHS.setBackground(new Color(245, 245, 245));
+            txtMaMH.setBackground(new Color(245, 245, 245));
+            txtLyDo.setBackground(new Color(245, 245, 245));
+
+            // Cài đặt trạng thái ban đầu của các nút (Chỉ cho phép Sửa/Duyệt)
+            setCrudButtonState(false, true, true, false, false);
+        }
     }
 
     private JButton createBtn(String t, Color c) {
@@ -155,12 +194,19 @@ public class QuanLyPhucKhaoPanel extends JPanel{
         cboTrangThai.setSelectedItem(trangThai);
         txtLyDo.setText(table.getValueAt(row, 5).toString());
     }
-
+    //ngày 13/04/2026
     public void refresh() {
-        txtMaHS.setText("");
+        // Chỉ xóa trắng mã HS nếu KHÔNG PHẢI là học sinh
+        if (!Model.Auth.isHocSinh()) {
+            txtMaHS.setText("");
+        }
+
         txtMaMH.setText("");
         if (cboTrangThai.getItemCount() > 0) {
             cboTrangThai.setSelectedIndex(0);
+        }
+        if (Model.Auth.isHocSinh()) {
+            cboTrangThai.setSelectedItem("Chờ xử lý");
         }
         txtLyDo.setText("");
         txtLoc.setText("");

@@ -159,10 +159,24 @@ public class Phuckhaocontroller {
             }
         });
     }
+    //thêm ngày 13/4/2026
+    // Tìm hàm load dữ liệu lên bảng trong Phuckhaocontroller và sửa lại thế này:
+    private void loadData() { // (Hoặc tên hàm load của bạn)
+        try {
+            List<Phuckhao> list;
 
-    private void loadData() { 
-        listCurrent = dao.getAll(); 
-        view.loadTable(listCurrent); 
+            if (Model.Auth.isHocSinh()) {
+                // Nếu là học sinh, chỉ lấy danh sách của chính mình
+                list = dao.getByMaHS(Model.Auth.maNguoiDung);
+            } else {
+                // Nếu là Admin/Giáo viên thì lấy tất cả
+                list = dao.getAll();
+            }
+
+            view.loadTable(list);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private boolean validateForm() {
